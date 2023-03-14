@@ -1,0 +1,25 @@
+{
+  "name": "Scala",
+  "image": "sbtscala/scala-sbt:eclipse-temurin-17.0.4_1.8.0_3.2.1",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.github-vscode-theme",
+        "scalameta.metals",
+        "scala-lang.scala"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+
+  // Update welcome text and set terminal prompt to '$ '
+  "onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc",
+  
+  "postAttachCommand": "git pull --all"
+  
+}
+// DevContainer Reference: https://code.visualstudio.com/docs/remote/devcontainerjson-reference

@@ -25,11 +25,9 @@ object Etl:
     def load(data: List[Int], output: String): Either[EtlError, Unit] =
       FileUtils.load(data, output)
 
-  def etl[A, B](inputFilePath: String, outputFilePath: String)(using
-      etl: Etl[A, B]
-  ): Either[EtlError, Unit] =
+  def etl[A, B](config: EtlConfig, etl: Etl[A, B]): Either[EtlError, Unit] =
     for
-      extracted <- etl.extract(inputFilePath)
+      extracted <- etl.extract(config.inputFilePath)
       transformed <- etl.transform(extracted)
-      _ <- etl.load(transformed, outputFilePath)
+      _ <- etl.load(transformed, config.outputFilePath)
     yield ()

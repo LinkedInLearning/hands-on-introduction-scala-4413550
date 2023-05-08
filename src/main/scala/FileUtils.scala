@@ -7,7 +7,7 @@ import Etl.EtlError.*
 object FileUtils:
   def extract(input: String): Either[EtlError, List[String]] =
     try Right(Using.resource(Source.fromFile(input))(_.getLines.toList))
-    catch case e: Exception => Left(ExtractError)
+    catch case _: Exception => Left(ExtractError)
 
   def load[A](data: List[A], output: String): Either[EtlError, Unit] =
     val maybeFileWriter: Either[EtlError, FileWriter] =

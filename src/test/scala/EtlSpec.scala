@@ -1,15 +1,34 @@
+import Etl.*
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
-import scala.util.Using
-import scala.io.Source
-import scala.util.{Try, Success}
-import Etl._
-import Etl.EtlError.*
-import pureconfig._
-import pureconfig.generic.derivation.default._
+import pureconfig.*
 import pureconfig.generic.derivation.EnumConfigReader
+import pureconfig.generic.derivation.default.*
 
-class EtlSpec extends AnyFreeSpec with Matchers {
+import java.io.{File, FileWriter}
+import java.nio.file.{Files, Path}
+import scala.io.Source
+import scala.util.{Success, Try, Using}
+
+class EtlSpec extends AnyFreeSpec with Matchers with BeforeAndAfterAll {
+
+  val stringInputFilePath = "src/test/resources/testInput.txt"
+  val intInputFilePath = "src/test/resources/testInput2.txt"
+  val stringOutput = "src/test/resources/testOutput.txt"
+  val intOutput = "src/test/resources/testOutput2.txt"
+
+  override def beforeAll() =
+    writeTestInputFile(stringInputFilePath, "HELLO WORLD")
+    writeTestInputFile(intInputFilePath, "0\n1\n2\n3\n4\n5")
+
+  override def afterAll() =
+    List(
+      stringInputFilePath,
+      intInputFilePath,
+      stringOutput,
+      intOutput,
+    ).foreach(path => Files.delete(Path.of(path)))
 
   "etl" - {
     "transforms a text file by making all the text lowercase and saves it to a new file" in {
@@ -36,15 +55,27 @@ class EtlSpec extends AnyFreeSpec with Matchers {
     }
     "outputs a load error if the output file path does not exist" in {
       val configWithErroneousOutputFilePath =
-        """
-          |input-file-path = "src/test/resources/testInput2.txt"
-          |output-file-path = ""
-          |etl-impl = int-impl
-          |""".stripMargin
+        s"""
+             |input-file-path = $intInputFilePath
+             |output-file-path = ""
+             |etl-impl = int-impl
+             |""".stripMargin
 
-      isExpectedError(configWithErroneousOutputFilePath, Etl.IntImpl, EtlError.LoadError)
+      isExpectedError(
+        configWithErroneousOutputFilePath,
+        Etl.IntImpl,
+        EtlError.LoadError
+      )
     }
   }
+
+  private def writeTestInputFile(path: String, contents: String) =
+    val fileWriter = new FileWriter(new File(path))
+    try {
+      fileWriter.write(contents)
+    } finally {
+      fileWriter.close()
+    }
 
   private def runIntegratedTest[A, B, C](
       configPath: String,

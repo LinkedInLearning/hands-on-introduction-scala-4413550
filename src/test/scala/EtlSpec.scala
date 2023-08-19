@@ -8,11 +8,9 @@ class EtlSpec extends AnyFreeSpec with Matchers {
 
   "etl" - {
     "transforms a text file by making all the text lowercase and saves it to a new file" in {
-      val input =
-        "/workspaces/scala-codespaces-testing/src/test/resources/testInput.txt"
-      val output =
-        "/workspaces/scala-codespaces-testing/src/test/resources/testOutput.txt"
-      val expectedFileContents = List("hello", "world")
+      val input = "src/test/resources/testInput.txt"
+      val output = "src/test/resources/testOutput.txt"
+      val expectedFileContents = List("hello world")
 
       etl(input, output)
 

@@ -4,6 +4,7 @@ import scala.util.Using
 import scala.io.Source
 import scala.util.{Try, Success}
 import Etl._
+import Etl.EtlError.*
 
 class EtlSpec extends AnyFreeSpec with Matchers {
 
@@ -27,6 +28,22 @@ class EtlSpec extends AnyFreeSpec with Matchers {
       etl(input, output)(using Etl.IntImpl)
 
       readFile(output) shouldEqual Success(expectedFileContents)
+    }
+    "outputs an extract error if the input file path does not exist" in {
+      val erroneousInputFilePath = ""
+      val outputFilePath =
+        "src/test/resources/testOutput.txt"
+      etl(erroneousInputFilePath, outputFilePath)(using
+        Etl.IntImpl
+      ) shouldEqual Left(ExtractError)
+    }
+    "outputs a load error if the output file path does not exist" in {
+      val inputFilePath =
+        "src/test/resources/testInput2.txt"
+      val erroneousOutputFilePath = ""
+      etl(inputFilePath, erroneousOutputFilePath)(using
+        Etl.IntImpl
+      ) shouldEqual Left(LoadError)
     }
   }
 

@@ -13,28 +13,52 @@ import scala.util.{Success, Try, Using}
 
 class EtlSpec extends AnyFreeSpec with Matchers with BeforeAndAfterAll {
 
-  val stringInputFilePath = "src/test/resources/testInput.txt"
-  val intInputFilePath = "src/test/resources/testInput2.txt"
-  val outputFilePath = "src/test/resources/testOutput.txt"
+  val stringConfig = "string-test"
+  val intConfig = "int-test"
+  val jsonConfig = "json-test"
+
+  val stringInput = "src/test/resources/testInput.txt"
+  val intInput = "src/test/resources/testInput2.txt"
+  val jsonInput = "src/test/resources/testInput3.json"
 
   override def beforeAll() =
-    writeTestInputFile(stringInputFilePath, "HELLO WORLD")
-    writeTestInputFile(intInputFilePath, "0\n1\n2\n3\n4\n5")
+    writeTestInputFile(stringInput, "HELLO WORLD")
+    writeTestInputFile(intInput, "0\n1\n2\n3\n4\n5")
+    val inputJson: String =
+      """
+        |[
+        |{"id": 1, "name": "amina", "age": 35},
+        |{"id": 2, "name": "marylene", "age": 14}
+        |]
+        |""".stripMargin
+    writeTestInputFile(jsonInput, inputJson)
 
-  override def afterAll() =
-    Files.delete(Path.of(stringInputFilePath))
-    Files.delete(Path.of(intInputFilePath))
-    Files.delete(Path.of(outputFilePath))
+  override def afterAll(): Unit =
+    List(stringConfig, intConfig, jsonConfig).foreach { configPath =>
+      ConfigSource.default
+        .at(configPath)
+        .load[EtlConfig]
+        .foreach { config =>
+          Files.delete(Path.of(config.inputFilePath))
+          Files.delete(Path.of(config.outputFilePath))
+        }
+    }
 
   "etl" - {
+
     "transforms a text file by making all the text lowercase and saves it to a new file" in {
       val expected = List("hello world")
-      runIntegratedTest("string-test", Etl.StringImpl, expected)
+      runIntegratedTest(stringConfig, Etl.StringImpl, expected)
     }
     "transforms a text file by doubling all integers and saves this to a new file" in {
       val expected = List("0", "2", "4", "6", "8", "10")
-      runIntegratedTest("int-test", Etl.IntImpl, expected)
+      runIntegratedTest(intConfig, Etl.IntImpl, expected)
     }
+    "transforms a json file by removing all invalid users" in {
+      val expected = List("User(1,amina,35)")
+      runIntegratedTest(jsonConfig, Etl.JsonImpl, expected)
+    }
+
     "outputs an extract error if the input file path does not exist" in {
       val configWithErroneousInputFilePath =
         """
@@ -52,7 +76,7 @@ class EtlSpec extends AnyFreeSpec with Matchers with BeforeAndAfterAll {
     "outputs a load error if the output file path does not exist" in {
       val configWithErroneousOutputFilePath =
         s"""
-             |input-file-path = $intInputFilePath
+             |input-file-path = $intInput
              |output-file-path = ""
              |etl-impl = int-impl
              |""".stripMargin

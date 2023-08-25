@@ -12,6 +12,7 @@ import pureconfig.*
   yield config.etlImpl match
     case EtlImpl.StringImpl => printResult(config, Etl.StringImpl)
     case EtlImpl.IntImpl    => printResult(config, Etl.IntImpl)
+    case EtlImpl.JsonImpl    => printResult(config, Etl.JsonImpl)
 
 private def printResult[A, B](config: EtlConfig, etlImpl: Etl[A, B]): Unit =
   etl(config, etlImpl) match

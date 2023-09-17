@@ -42,19 +42,19 @@ class ChallengesSpec extends AnyFreeSpec with Matchers {
   }
 
   "applyFunction" - {
-    "applies a function to an integer" ignore {
+    "applies a function to an integer" in {
       val square: Int => Int = num => num * num
       val result = applyFunction(square, 5)
       result shouldBe 25
     }
 
-    "applies a function to a string" ignore {
+    "applies a function to a string" in {
       val greet: String => String = name => s"Hello, $name!"
       val result = applyFunction(greet, "Akin")
       result shouldBe "Hello, Akin!"
     }
 
-    "applies a function to a case class" ignore {
+    "applies a function to a case class" in {
       case class Person(name: String, age: Int)
       val getDescription: Person => String =
         person => s"${person.name} is ${person.age} years old."
@@ -65,14 +65,14 @@ class ChallengesSpec extends AnyFreeSpec with Matchers {
   }
 
   "processPayment" - {
-    "processes successful payment" ignore {
+    "processes successful payment" in {
       val amount = 50.0
       val cardBalance = 100.0
       val result = processPayment(amount, cardBalance)
       result shouldBe Right(50.0)
     }
 
-    "handles insufficient balance" ignore {
+    "handles insufficient balance" in {
       val amount = 150.0
       val cardBalance = 100.0
       val result = processPayment(amount, cardBalance)
@@ -81,48 +81,48 @@ class ChallengesSpec extends AnyFreeSpec with Matchers {
   }
   "getWeatherDescription" - {
     "should describe the weather conditions correctly" - {
-      "for Sunny weather" ignore {
-//        val description = getWeatherDescription(WeatherCondition.Sunny)
-//        description shouldBe "It's a sunny day."
+      "for Sunny weather" in {
+        val description = getWeatherDescription(WeatherCondition.Sunny)
+        description shouldBe "It's a sunny day."
       }
 
-      "for Cloudy weather" ignore {
-//        val description = getWeatherDescription(WeatherCondition.Cloudy)
-//        description shouldBe "It's a cloudy day."
+      "for Cloudy weather" in {
+        val description = getWeatherDescription(WeatherCondition.Cloudy)
+        description shouldBe "It's a cloudy day."
       }
 
-      "for Rainy weather" ignore {
-//        val description = getWeatherDescription(WeatherCondition.Rainy)
-//        description shouldBe "It's a rainy day."
+      "for Rainy weather" in {
+        val description = getWeatherDescription(WeatherCondition.Rainy)
+        description shouldBe "It's a rainy day."
       }
 
-      "for Snowy weather" ignore {
-//        val description = getWeatherDescription(WeatherCondition.Snowy)
-//        description shouldBe "It's a snowy day."
+      "for Snowy weather" in {
+        val description = getWeatherDescription(WeatherCondition.Snowy)
+        description shouldBe "It's a snowy day."
       }
     }
   }
 
   "Notifications" - {
     "EmailNotification" in {
-//      val emailAddress = "user@example.com"
-//      val emailNotification = EmailNotification(emailAddress)
-//      val message = "Hello, this is an email"
-//      val formattedMessage = emailNotification.formatMessage(message)
-//      val result = emailNotification.sendNotification(message)
-//
-//      formattedMessage shouldBe s"Message: $message"
-//      result shouldBe s"Sending email to $emailAddress with message: $message"
+      val emailAddress = "user@example.com"
+      val emailNotification = EmailNotification(emailAddress, Priority.High)
+      val message = "Hello, this is an email"
+      val formattedMessage = emailNotification.formatMessage(message)
+      val result = emailNotification.sendNotification(message)
+
+      formattedMessage shouldBe s"Message: $message"
+      result shouldBe s"Sending email to $emailAddress with message: $message"
     }
     "SMSNotification" in {
-//      val phoneNumber = "07525015566"
-//      val smsNotification = SMSNotification(phoneNumber)
-//      val message = "Hello, this is an SMS"
-//      val formattedMessage = smsNotification.formatMessage(message)
-//      val result = smsNotification.sendNotification(message)
-//
-//      formattedMessage shouldBe s"Message: $message"
-//      result shouldBe s"Sending SMS to $phoneNumber: $message"
+      val phoneNumber = "07525015566"
+      val smsNotification = SMSNotification(phoneNumber, Priority.Medium)
+      val message = "Hello, this is an SMS"
+      val formattedMessage = smsNotification.formatMessage(message)
+      val result = smsNotification.sendNotification(message)
+
+      formattedMessage shouldBe s"Message: $message"
+      result shouldBe s"Sending SMS to $phoneNumber: $message"
     }
   }
 }

@@ -17,7 +17,7 @@ object Challenges {
     * that function to the value. Utilise generic types so this method works
     * with all input types.
     */
-  def applyFunction[A, B](f: A => B, value: A): B = ???
+  def applyFunction[A, B](f: A => B, value: A): B = f(value)
 
   /** You are working on a payment processing system. Implement processPayment,
     * which takes two arguments; amount and cardBalance, both of type Double.
@@ -30,39 +30,46 @@ object Challenges {
   def processPayment(
       amount: Double,
       cardBalance: Double
-  ): Either[String, Double] = ???
+  ): Either[String, Double] = if (cardBalance >= amount)
+    Right(cardBalance - amount)
+  else Left("Insufficient balance")
 
   /** You are developing a simple weather application. As part of this
-   * application, you want to model different weather conditions using an
-   * enum called WeatherCondition. Define an enum WeatherCondition with cases
-   * for various weather conditions. These should be "Sunny", "Cloudy",
-   * "Rainy", and "Snowy".
-   *
-   * Next, write a method getWeatherDescription that takes a WeatherCondition
-   * enum case and returns a description of the weather condition. For
-   * example, if the input is Sunny, the method should return "It's a sunny
-   * day." If it's Cloudy, it should return "It's a cloudy day" and so on.
-   */
+    * application, you want to model different weather conditions using an enum
+    * called WeatherCondition. Define an enum WeatherCondition with cases for
+    * various weather conditions. These should be "Sunny", "Cloudy", "Rainy",
+    * and "Snowy".
+    *
+    * Next, write a method getWeatherDescription that takes a WeatherCondition
+    * enum case and returns a description of the weather condition. For example,
+    * if the input is Sunny, the method should return "It's a sunny day." If
+    * it's Cloudy, it should return "It's a cloudy day" and so on.
+    */
   enum WeatherCondition:
-    case Something
+    case Sunny, Cloudy, Rainy, Snowy
 
-  def getWeatherDescription(condition: WeatherCondition): String = ???
+  def getWeatherDescription(condition: WeatherCondition): String =
+    condition match
+      case WeatherCondition.Sunny  => "It's a sunny day."
+      case WeatherCondition.Cloudy => "It's a cloudy day."
+      case WeatherCondition.Rainy  => "It's a rainy day."
+      case WeatherCondition.Snowy  => "It's a snowy day."
 
   /** You are developing a notification system. The Notification trait is a
-   * template for various notification types. The trait includes a priority, an
-   * abstract method for sending the notification and an implemented method to
-   * format the message.
-   *
-   * Your task is to complete the two case classes, EmailNotification and
-   * SMSNotification, so that they implement the Notification trait.
-   *
-   * Set the Priority field. Complete the sendNotification method. For
-   * EmailNotification this can be: "Sending email to $emailAddress with
-   * message: $message" and for SMS it can be: "Sending SMS to $phoneNumber:
-   * $message".
-   */
+    * template for various notification types. The trait includes a priority, an
+    * abstract method for sending the notification and an implemented method to
+    * format the message.
+    *
+    * Your task is to complete the two case classes, EmailNotification and
+    * SMSNotification, so that they implement the Notification trait.
+    *
+    * Set the Priority field. Complete the sendNotification method. For
+    * EmailNotification this can be: "Sending email to $emailAddress with
+    * message: $message" and for SMS it can be: "Sending SMS to $phoneNumber:
+    * $message".
+    */
   enum Priority:
-    case High, Medium, Low
+    case High, Medium
 
   sealed trait Notification {
     val priority: Priority
@@ -72,7 +79,14 @@ object Challenges {
     def formatMessage(message: String): String = s"Message: $message"
   }
 
-  final case class EmailNotification(emailAddress: String)
-
-  final case class SMSNotification(phoneNumber: String)
+  final case class EmailNotification(emailAddress: String, priority: Priority)
+      extends Notification {
+    def sendNotification(message: String): String =
+      s"Sending email to $emailAddress with message: $message"
+  }
+  final case class SMSNotification(phoneNumber: String, priority: Priority)
+      extends Notification {
+    def sendNotification(message: String): String =
+      s"Sending SMS to $phoneNumber: $message"
+  }
 }

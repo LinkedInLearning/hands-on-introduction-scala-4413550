@@ -1,5 +1,5 @@
-# COURSENAME
-This is the repository for the LinkedIn Learning course `course-name`. The full course is available from [LinkedIn Learning][lil-course-url].
+# Hands-On Introduction: Scala
+This is the repository for the LinkedIn Learning course Hands-On Introduction: Scala. The full course is available from [LinkedIn Learning][lil-course-url].
 
 ![course-name-alt-text][lil-thumbnail-url] 
 
@@ -22,11 +22,21 @@ To resolve this issue:
     Add changes to git using this command: git add .
 	Commit changes using this command: git commit -m "some message"
 
-## Installing
-1. To use these exercise files, you must have the following installed:
-	- [list of requirements for course]
-2. Clone this repository into your local machine using the terminal (Mac), CMD (Windows), or a GUI tool like SourceTree.
-3. [Course-specific instructions]
+## Installation
+This course is intended to be run using GitHub Codespaces, which means you can run the course code in the browser using Visual Studio Code.
+Check out the **Using GitHub Codespaces with this course** video to learn how to get started.
+
+However, if you would like to run this repo on your local machine, check out my course [Introduction to Scala](https://www.linkedin.com/learning/introduction-to-scala/install-intellij-for-mac?resume=false),
+which explains the installation process. Note that those videos have not been updated since recording! 
+I'm also noting some helpful links below:
+- JDK: https://www.oracle.com/java/technologies/downloads/
+- Scala: https://www.scala-lang.org/download/ 
+- Scala: https://docs.scala-lang.org/getting-started/index.html
+- IntelliJ IDEA install: https://www.jetbrains.com/idea/download
+- Getting started with Scala in IntelliJ: https://docs.scala-lang.org/getting-started/intellij-track/getting-started-with-scala-in-intellij.html
+- Visual Studio Code: https://code.visualstudio.com/download
+- Metals Plugin for Visual Studio Code: https://scalameta.org/metals/docs/editors/vscode#installation
+- sbt: https://www.scala-sbt.org/download.html
 
 
 [0]: # (Replace these placeholder URLs with actual course URLs)

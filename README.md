@@ -3,6 +3,8 @@ This is the repository for the LinkedIn Learning course Hands-On Introduction: S
 
 ![course-name-alt-text][lil-thumbnail-url] 
 
+Scala is a high-level programming language that supports both object-oriented programming and functional programming, and it’s also a key part of many developers’ toolkits. In this course, software engineer Amina Adewusi gives you a thorough introduction to the latest version of Scala, via the process of building an app using GitHub Codespaces. Explore the basics of Scala as you build a minimal app that extracts and transforms files. Practice what you learn with hands-on challenges throughout the course. Plus, go over data and domain modeling, Scala project structure, and testing.
+
 _See the readme file in the main branch for updated instructions and information._
 ## Instructions
 This repository has branches for each of the videos in the course. You can use the branch pop up menu in github to switch to a specific branch and take a look at the course at that stage, or you can add `/tree/BRANCH_NAME` to the URL to go to the branch you want to access.
@@ -41,6 +43,6 @@ I'm also noting some helpful links below:
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
 
-[lil-course-url]: https://www.linkedin.com/learning/
-[lil-thumbnail-url]: http://
+[lil-course-url]: https://www.linkedin.com/learning/hands-on-introduction-scala
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/D560DAQELF_sWWhlfzw/learning-public-crop_675_1200/0/1705617575948?e=2147483647&v=beta&t=aqZJBwJl-rtYiMOBg3DFQP34VWLROKo5A1XUYvmfLo4
 
